@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+
+<head>
+    <meta charset="utf-8">
+    <title></title>
+    <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+    <!-- jQuery for simple AJAX (loading weather.json) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <!-- Apache ECharts for charts on the right side -->
+    <script src="https://cdn.jsdelivr.net/npm/echarts/dist/echarts.min.js"></script>
+    <!-- Mapbox GL JS for the interactive base map -->
+    <link href="https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.css" rel="stylesheet">
+    <script src="https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.js"></script>
+    <!-- NOTE: The Mapbox CSS above is already included; the duplicate line was kept originally. -->
+    <link href="https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.css" rel="stylesheet">
+    <!-- Local styles for layout and theme -->
+    <link type="text/css" rel="stylesheet" href="./css/style.css">
+</head>
+
+<body id="main">
+    <div id="left">
+        <div id="leftUpChart"></div>
+        <div id="leftMiddleChart"></div>
+        <div id="leftDownChart"></div>
+    </div>
+
+    <div id="mainChart"></div>
+
+    <div id="right">
+        <div id="rightUpChart"></div>
+        <div id="rightMiddleChart"></div>
+        <div id="rightDownChart"></div>
+    </div>
+
+     <script type="text/javascript">
+        function createMap(allData) {
+            const mapboxAccessToken = 'pk.eyJ1IjoidnZ2djQxIiwiYSI6ImNtdjRsNDJ1YjEzNXQyd3E1cmpsZnM4NXQifQ.IcrkaMGlkXB4etV54D8D2Q';
+            mapboxgl.accessToken = mapboxAccessToken;
+            const map = new mapboxgl.Map({
+                container: 'mainChart',
+                style: 'mapbox://styles/mapbox/light-v11',
+                center: [113.42377372300297, 0.23167999619075158],
+                zoom: 6
+            });
+            for (var i=0; i< allData.length; i++) {
+                const marker = new mapboxgl.Marker({ color: '#A41523'})
+                    .setLngLat(allData[i]['coord'])
+                    .addTo(map);
+                
+                marker.getElement().addEventListener('click', function(e){
+                    let markerCoord = marker. getLngLat();
+                    for(let j=0; j<allData.length; j++){
+                        coord= allData[j]['coord'];
+                        if(markerCoord.lng == coord[0] && markerCoord.lat == coord[1]){
+                            setChart(allData[j]);
+                        }
+                    }
+                })
+            }
+        }
+
+        function createChart(data, type, chart){
+            let values = data['value'];
+            var dateList = [];
+            var lowTempList = [];
+            var highTempList = [];
+
+            for(let i=0; i<values.length; i++){
+                let v = values[i];
+                dateList.push(v['date']);
+                lowTempList.push(v['lowTemp']);
+                highTempList.push(v['highTemp']);
+            }
+
+            console.log(dateList);
+
+            let option = {
+                title: {
+                    text: data['station'] + '\nMonthly Average High & Low Temperature(°C)',
+                    textStyle: {
+                        color: '#000000'
+                    }
+                 },
+                 visualMap: {
+                    type: 'continuous',
+                    orient: 'horizontal',
+                    left: 'center',
+                    min: 10,
+                    max: 36,
+                    text: ['Hot', 'Cold'],
+                    dimension: 1,
+                    inRange: {
+                        color:['#a2faf8', '#FFCE34', '#bf1d1d']
+                    }
+                },
+                xAxis: {
+                    type: 'category',
+                    data: dateList
+                },
+                yAxis: {
+                    type: 'value',
+                    min: 10,
+                    max: 40
+                },
+                series:[
+                    {
+                        name: 'Low Average',
+                        data: lowTempList,
+                        type: 'line'
+                    },
+                    {
+                        name: 'High Average',
+                        data: highTempList,
+                        type: 'line'
+                    }
+                ]
+            }
+             chart.setOption(option);
+        }
+
+        function createBarChart(data, chart){
+            let values = data['value'];
+            var dateList = [];
+            var aqiList = [];
+
+            for(let i=0; i<values.length; i++){
+                let v = values[i];
+                dateList.push(v['date']);
+                aqiList.push(v['aqi']);
+            }
+            
+            let option = {
+                title: {
+                    text: data['station'] + '\nMonthly Average Air Quality Index',
+                    textStyle: {
+                        color: '#000000'
+                    }
+                 },
+                 visualMap: {
+                    type: 'piecewise',
+                    orient: 'horizontal',
+                    left: 'center',
+                    bottom: 5,
+                    dimension: 1,
+                    pieces: [
+                        { min: 0, max: 50, color: '#00E400', label: 'Good' },
+                        { min: 51, max: 100, color: '#FFFF00', label: 'Moderate' },
+                        { min: 101, max: 150, color: '#FF7E00', label: 'Sensitive' },
+                        { min: 151, max: 200, color: '#FF0000', label: 'Unhealthy' },
+                        { min: 201, max: 300, color: '#8F3F97', label: 'Very Unhealthy' },
+                        { min: 301, max: 600, color: '#7E0023', label: 'Hazardous' }
+                    ]
+                 },
+                xAxis: {
+                    type: 'category',
+                    data: dateList
+                },
+                yAxis: {
+                    type: 'value',
+                    min: 10,
+                    max: 600
+                },
+                series:[
+                    {
+                        data: aqiList,
+                        type: 'bar'
+                    }
+                ]
+            }
+            barChart.setOption(option);
+        }
+
+        function createRhChart(data,chart){
+            let values = data['value'];
+            var dateList = [];
+            var rhList = [];
+
+            for(let i=0; i<values.length; i++){
+                let v = values[i];
+                dateList.push(v['date']);
+                rhList.push(v['rh']);
+            }
+
+            console.log(dateList);
+
+            let option = {
+                title: {
+                    text: data['station'] + '\nMonthly Humidity Average (%)',
+                    textStyle: {
+                        color: '#000000'
+                    }
+                 },
+                xAxis: {
+                    type: 'category',
+                    data: dateList
+                },
+                yAxis: {
+                    type: 'value',
+                    min: 50,
+                    max: 100
+                },
+                series:[
+                    {
+                        data: rhList,
+                        type: 'line'
+                    },
+                ]
+            }
+             rhLineChart.setOption(option);
+        }
+
+        function createRainChart(data, chart){
+            let values = data['value'];
+            var dateList = [];
+            var rainList = [];
+
+            for(let i=0; i<values.length; i++){
+                let v = values[i];
+                dateList.push(v['date']);
+                rainList.push(v['rain']);
+            }
+            
+            let option = {
+                title: {
+                    text: data['station'] + '\nMonthly Average Rainfall (mm)',
+                    textStyle: {
+                        color: '#000000'
+                    }
+                 },
+                xAxis: {
+                    type: 'category',
+                    data: dateList
+                },
+                yAxis: {
+                    type: 'value',
+                    min: 10,
+                    max: 310
+                },
+                series:[
+                    {
+                        data: rainList,
+                        type: 'bar'
+                    }
+                ]
+            }
+            rainBarChart.setOption(option);
+        }
+
+        function createCompChart(data, type, chart){
+            let values = data['value'];
+            var dateList = [];
+            var aqiList = [];
+            var rainList = [];
+            var rhList = [];
+
+            for(let i=0; i<values.length; i++){
+                let v = values[i];
+                dateList.push(v['date']);
+                aqiList.push(v['aqi']);
+                rainList.push(v['rain']);
+                rhList.push(v['rh']);
+            }
+
+            console.log(dateList);
+
+            let option = {
+                title: {
+                    text: 'AQI, Humidity, and Rainfall',
+                    textStyle: {
+                        color: '#000000'
+                    }
+                 },
+                 legend: {
+                    data: ['AQI', 'Humidity', 'Rainfall']
+                },
+                xAxis: {
+                    type: 'category',
+                    data: dateList
+                },
+                yAxis: [
+                    {
+                        type: 'value',
+                        name: 'AQI',
+                        position: 'right',
+                        offset: 60
+                    },
+                    {
+                        type: 'value',
+                        name: 'Humidity (%)',
+                        position: 'right'
+                    },
+                    {
+                        type: 'value',
+                        name: 'Rainfall (mm)'
+                    }
+                ],
+                series:[
+                    {
+                        name: 'AQI',
+                        data: aqiList,
+                        type: 'line',
+                        yAxisIndex: 0
+                    },
+                    {
+                        name: 'Humidity',
+                        data: rhList,
+                        type: 'line',
+                        yAxisIndex: 1
+                    },
+                    {
+                        name: 'Rainfall',
+                        data: rainList,
+                        type: 'line',
+                        yAxisIndex: 2
+                    }
+                ]
+            }
+             compChart.setOption(option);
+        }
+
+        function createCompTwoChart(data, type, chart){
+            let values = data['value'];
+            var dateList = [];
+            var aqiList = [];
+            var lowTempList = [];
+            var highTempList = [];
+
+            for(let i=0; i<values.length; i++){
+                let v = values[i];
+                dateList.push(v['date']);
+                aqiList.push(v['aqi']);
+                lowTempList.push(v['lowTemp']);
+                highTempList.push(v['highTemp']);
+            }
+
+            console.log(dateList);
+
+            let option = {
+                title: {
+                    text: 'AQI and Temperature',
+                    textStyle: {
+                        color: '#000000'
+                    }
+                 },
+                 legend: {
+                    data: ['AQI', 'Low Temp Avg', 'High Temp Avg']
+                },
+                xAxis: {
+                    type: 'category',
+                    data: dateList
+                },
+                yAxis: [
+                    {
+                        type: 'value',
+                        name: 'AQI',
+                        position: 'right',
+                        offset: 60
+                    },
+                    {
+                        type: 'value',
+                        name: 'Low Temp Avg(°C)'
+                    },
+                    {
+                        type: 'value',
+                        name: 'High Temp Avg(°C)'
+                    }
+                ],
+                series:[
+                    {
+                        name: 'AQI',
+                        data: aqiList,
+                        type: 'line',
+                        yAxisIndex: 0
+                    },
+                    {
+                        name: 'Low Temp Avg',
+                        data: lowTempList,
+                        type: 'line',
+                        yAxisIndex: 1
+                    },
+                    {
+                        name: 'High Temp Avg',
+                        data: highTempList,
+                        type: 'line',
+                        yAxisIndex: 2
+                    }
+                ]
+            }
+             compTwoChart.setOption(option);
+        }
+
+
+        let lineChart = echarts.init(document.getElementById('leftUpChart'))
+        let barChart = echarts.init(document.getElementById('leftMiddleChart'))
+        let rhLineChart = echarts.init(document.getElementById('leftDownChart'))
+
+        
+        let rainBarChart = echarts.init(document.getElementById('rightUpChart'))
+        let compTwoChart = echarts.init(document.getElementById('rightMiddleChart'))
+        let compChart = echarts.init(document.getElementById('rightDownChart'))
+
+        function setChart(data){
+            createChart(data, 'line', lineChart);
+            createBarChart(data, barChart);
+            createRhChart(data, rhLineChart);
+
+            createRainChart(data, rainBarChart);
+            createCompChart(data, compChart);
+            createCompTwoChart(data, compTwoChart);
+        }
+
+        
+
+        $.getJSON("weather.json", function(allData) {
+            createMap(allData);
+            setChart(allData[0]);
+        });
+
+
+
+     </script>
+    
+</body>
+
+</html>

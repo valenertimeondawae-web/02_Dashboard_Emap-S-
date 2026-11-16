@@ -1,0 +1,65 @@
+[{
+    "station": "Pontianak",
+    "coord": [109.341389, -0.020556],
+    "value": [
+        {"date": "Jan", "lowTemp": 23.1, "highTemp": 29.9, "rain": 284, "aqi": 90, "rh":88}, 
+        {"date": "Feb", "lowTemp": 23.7, "highTemp": 30.9, "rain": 221, "aqi": 90, "rh":87},
+        {"date": "Mar", "lowTemp": 23.9, "highTemp": 31.3, "rain": 211, "aqi": 120, "rh": 87},
+        {"date": "Apr", "lowTemp": 24.5, "highTemp": 32.2, "rain": 249, "aqi": 61, "rh":88},
+        {"date": "May", "lowTemp": 24.4, "highTemp": 33.3, "rain": 224, "aqi": 57, "rh":89},
+        {"date": "Jun", "lowTemp": 24.3, "highTemp": 32.3, "rain": 163, "aqi": 64, "rh":88},
+        {"date": "Jul", "lowTemp": 24.4, "highTemp": 32.5, "rain": 157, "aqi": 120, "rh":87},
+        {"date": "Aug", "lowTemp": 24.6, "highTemp": 34.1, "rain": 140, "aqi": 218, "rh":85},
+        {"date": "Sep", "lowTemp": 24.6, "highTemp": 32.3, "rain": 178, "aqi": 330, "rh":86},
+        {"date": "Oct", "lowTemp": 24.5, "highTemp": 32.5, "rain": 113.5, "aqi": 223, "rh":88}
+    ]
+},
+{
+    "station": "Palangka Raya",
+    "coord": [113.92, -2.21],
+    "value": [
+        {"date": "Jan", "lowTemp": 24.3, "highTemp": 31.3, "rain": 279, "aqi": 59, "rh":88.3}, 
+        {"date": "Feb", "lowTemp": 23.6, "highTemp": 30.3, "rain": 259, "aqi": 117, "rh":88.2},
+        {"date": "Mar", "lowTemp": 24, "highTemp": 31.5, "rain": 254, "aqi": 60, "rh":89},
+        {"date": "Apr", "lowTemp": 24.7, "highTemp": 31.7, "rain": 257, "aqi": 53, "rh":89.5},
+        {"date": "May", "lowTemp": 25.2, "highTemp": 31.7, "rain": 196, "aqi": 53, "rh":89.9},
+        {"date": "Jun", "lowTemp": 25, "highTemp": 31.2, "rain": 145, "aqi": 57, "rh":87.3},
+        {"date": "Jul", "lowTemp": 25.2, "highTemp": 31.1, "rain": 102, "aqi": 75, "rh":80.1},
+        {"date": "Aug", "lowTemp": 25.4, "highTemp": 31.3, "rain": 69, "aqi": 169, "rh":70.2},
+        {"date": "Sept", "lowTemp": 26.2, "highTemp": 32.5, "rain": 99, "aqi": 594, "rh":73.2},
+        {"date": "Oct", "lowTemp": 26.8, "highTemp": 32.8, "rain": 178, "aqi": 483, "rh":76.4}
+    ]
+},
+{
+    "station": "Samarinda",
+    "coord": [117.1536, -0.5022],
+    "value": [
+        {"date": "Jan", "lowTemp": 24.3, "highTemp": 31.3, "rain": 175, "aqi": 62, "rh":87.5}, 
+        {"date": "Feb", "lowTemp": 23.6, "highTemp": 30.8, "rain": 163, "aqi": 52, "rh":87.8},
+        {"date": "Mar", "lowTemp": 24.0, "highTemp": 31.5, "rain": 150, "aqi": 54, "rh":88.7},
+        {"date": "Apr", "lowTemp": 24.7, "highTemp": 31.7, "rain": 175, "aqi": 61, "rh":88.5},
+        {"date": "May", "lowTemp": 25.2, "highTemp": 31.6, "rain": 160, "aqi": 67, "rh":90.3},
+        {"date": "Jun", "lowTemp": 25, "highTemp": 31.2, "rain": 147, "aqi": 62, "rh":89.5},
+        {"date": "Jul", "lowTemp": 25.2, "highTemp": 31.1, "rain": 112, "aqi": 59, "rh":87.3},
+        {"date": "Aug", "lowTemp": 25.4, "highTemp": 31.3, "rain": 94, "aqi": 57, "rh":81.3},
+        {"date": "Sept", "lowTemp": 26.2, "highTemp": 32.5, "rain": 102, "aqi": 99, "rh":81.3},
+        {"date": "Oct", "lowTemp": 26.8, "highTemp": 32.8, "rain": 99, "aqi": 167, "rh":81.3}
+    ]
+},
+{
+    "station": "Banjarbaru",
+    "repStation": "Banjarmasin",
+    "coord": [115.5, -2.5],
+    "value": [
+        {"date": "Jan", "lowTemp": 24.3, "highTemp": 31.3, "rain": 305, "aqi": 70, "rh":86.1}, 
+        {"date": "Feb", "lowTemp": 23.6, "highTemp": 30.8, "rain": 269, "aqi": 66, "rh":89.0},
+        {"date": "Mar", "lowTemp": 24, "highTemp": 31.5, "rain": 231, "aqi": 68, "rh":88.4},
+        {"date": "Apr", "lowTemp": 24.7, "highTemp": 31.7, "rain": 191, "aqi": 63, "rh":87.7},
+        {"date": "May", "lowTemp": 25.2, "highTemp": 31.7, "rain": 152, "aqi": 64, "rh":89.6},
+        {"date": "Jun", "lowTemp": 25, "highTemp": 31.2, "rain": 119, "aqi": 68, "rh":82.5},
+        {"date": "Jul", "lowTemp": 25.2, "highTemp": 31.1, "rain": 89, "aqi": 73, "rh":76.5},
+        {"date": "Aug", "lowTemp": 25.4, "highTemp": 31.3, "rain": 66, "aqi": 78, "rh":69.9},
+        {"date": "Sept", "lowTemp": 26.2, "highTemp": 32.5, "rain": 74, "aqi": 112, "rh":67.9},
+        {"date": "Oct", "lowTemp": 26.8, "highTemp": 32.8, "rain": 119, "aqi": 157, "rh":68.7}
+    ]
+}]

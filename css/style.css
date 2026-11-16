@@ -1,0 +1,55 @@
+body {
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    display: grid;
+    grid-template-columns: 25% 50% 25%;
+}
+
+#left {
+    grid-column: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+#leftUpChart {
+    width: 100%;
+    height: 30%;
+}
+
+#leftMiddleChart {
+    width: 100%;
+    height: 30%;
+}
+
+#leftDownChart {
+    width: 100%;
+    height: 40%;
+}
+
+#mainChart {
+    grid-column: 2;
+    width: 100%;
+    height: 100%;
+}
+
+#right {
+    grid-column: 3;
+    display: flex;
+    flex-direction: column;
+}
+
+#rightUpChart {
+    width: 100%;
+    height: 30%;
+}
+
+#rightMiddleChart {
+    width: 100%;
+    height: 30%;
+}
+
+#rightDownChart {
+    width: 100%;
+    height: 40%;
+}
